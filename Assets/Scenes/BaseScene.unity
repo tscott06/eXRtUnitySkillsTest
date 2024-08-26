@@ -236,11 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cee511532dff64fa2f48677e3d8c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDimensions: {x: 20, y: 20}
-  tileSize: 1
-  possibleTiles:
-  - {fileID: 11400000, guid: eb5e7ac964d334a419b2a94568ecb32e, type: 2}
-  - {fileID: 11400000, guid: a4cdac8531f3d7443ba1f83e8e721fc3, type: 2}
+  gridWidth: 20
+  gridHeight: 20
+  tilesSet: {fileID: 11400000, guid: db415267c36b8e34dada78525f2691bd, type: 2}
 --- !u!4 &361906451
 Transform:
   m_ObjectHideFlags: 0

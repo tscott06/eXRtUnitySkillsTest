@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7eb043fa662c0046923649f41ac9304, type: 3}
+  m_Name: GrassInnerCorner
+  m_EditorClassIdentifier: 
+  tileData:
+    TileName: GrassCorner
+    Prefab: {fileID: 8015839623084270653, guid: a3365bcca2fc3a0419313852dc50428d, type: 3}
+    sockets:
+      Up: 1
+      Right: 1
+      Down: 2
+      Left: 2
+    Weight: 5
+    allowRotatedVariants: 1
