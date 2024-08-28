@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cbce2d9edbd2b647913fea1591937cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flip180Degrees: 0
+  flip180Degrees: 1
 --- !u!1 &8477871510364250682
 GameObject:
   m_ObjectHideFlags: 0

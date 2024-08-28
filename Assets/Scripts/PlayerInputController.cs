@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Obsolete("Was getting bugs with this approach, using unity's player input instead")]
 public class PlayerInputController : MonoBehaviour
 {
     [SerializeField] InputActionProperty movementInput;
@@ -11,7 +12,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] InputActionProperty fireInput;
 
     [SerializeField] Movement movement;
-    [SerializeField] PlayerCamera playerCamera;
+    [SerializeField] PlayerCameraController playerCamera;
     [SerializeField] Gun gun;
 
 

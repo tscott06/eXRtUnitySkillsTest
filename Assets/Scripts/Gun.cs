@@ -9,6 +9,7 @@ public class Gun : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject bulletPrefab;
+    //public GunAimer targetPoint;
 
     [SerializeField] float fireDelay = .5f;
     [SerializeField] int poolSize = 30;
@@ -17,10 +18,12 @@ public class Gun : MonoBehaviour
     //private Queue<BasicBullet> chamber = new Queue<BasicBullet>();
 
     [SerializeField] protected float delayCountDown = 0;
-    protected bool cantFire;
+    private bool fireCooldownActive;
 
     public UnityEvent OnBulletFired;
     public UnityEvent OnFireFail;
+
+    public bool FireCooldownActive { get => fireCooldownActive; }
 
     protected virtual void Start()
     {
@@ -34,7 +37,7 @@ public class Gun : MonoBehaviour
 
     protected virtual void FireDelay()
     {
-        if (!cantFire)
+        if (!fireCooldownActive)
             return;
 
         delayCountDown -= Time.deltaTime;
@@ -42,7 +45,7 @@ public class Gun : MonoBehaviour
         if (delayCountDown <= 0)
         {
             delayCountDown = 0;
-            cantFire = false;
+            fireCooldownActive = false;
             return;
         }
               
@@ -63,7 +66,7 @@ public class Gun : MonoBehaviour
 
     public virtual void TryPullTrigger()
     {
-        if(cantFire)
+        if(fireCooldownActive)
         {
             //Just adebug message for now
             //Debug.LogError("CAN'T FIRE NOW - COOLDOWN IN EFFECT!");
@@ -102,7 +105,7 @@ public class Gun : MonoBehaviour
 
     protected virtual void ApplyFireDelay()
     {
-        cantFire = true;
+        fireCooldownActive = true;
         delayCountDown = fireDelay;
     }
 

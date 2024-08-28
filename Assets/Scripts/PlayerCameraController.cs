@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField] private Transform targetTransform;
     [SerializeField] private Camera playerCamera;
@@ -13,7 +13,7 @@ public class PlayerCamera : MonoBehaviour
     private Vector2 rotation;
 
     [SerializeField] private Vector3 offset = new Vector3(2, 1, -5);
-    [SerializeField] private float distanceFromPlayer;
+
     private Vector3 currentTrackingVelocity;
 
     private Vector2 lookMove = Vector3.zero;
@@ -22,6 +22,7 @@ public class PlayerCamera : MonoBehaviour
     private Vector3 currentTargetPosition;
     private Vector3 currentTargetRotation;
 
+    public Camera PlayerCamera { get => playerCamera; set => playerCamera = value; }
 
     private void Start()
     {

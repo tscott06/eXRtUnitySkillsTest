@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5958610068459146416}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CemeraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,8 +42,7 @@ GameObject:
   - component: {fileID: 5958610068569770710}
   - component: {fileID: 5958610068569770715}
   - component: {fileID: 5958610068569770708}
-  - component: {fileID: 5958610068569770709}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'EyeL '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,19 +115,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5958610068569770709
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958610068569770711}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5958610068952472840
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,8 +126,7 @@ GameObject:
   - component: {fileID: 5958610068952472847}
   - component: {fileID: 5958610068952472844}
   - component: {fileID: 5958610068952472845}
-  - component: {fileID: 5958610068952472846}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,19 +198,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5958610068952472846
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958610068952472840}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5958610069061678670
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,9 +209,12 @@ GameObject:
   - component: {fileID: 5958610069061678669}
   - component: {fileID: 5958610069061678640}
   - component: {fileID: 5958610069061678641}
-  m_Layer: 0
+  - component: {fileID: 378321674962488759}
+  - component: {fileID: 3351706405661030418}
+  - component: {fileID: 329725845147225149}
+  m_Layer: 6
   m_Name: PlayerCapsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -312,6 +287,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &378321674962488759
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958610069061678670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3351706405661030418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958610069061678670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc0fc5cb3930494a8afd4a606343cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  maxHealth: 100
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onZeroHealth:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &329725845147225149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958610069061678670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971af468c4fa2c9479f3f36bd7a21c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 3351706405661030418}
+  playerCameraController: {fileID: 5958610069214653444}
+  input: {fileID: 1567860349}
 --- !u!1 &5958610069214653440
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,12 +347,12 @@ GameObject:
   - component: {fileID: 5958610069214653446}
   - component: {fileID: 5958610069214653445}
   - component: {fileID: 5958610069214653444}
-  - component: {fileID: 8194473352854195271}
   - component: {fileID: 1567860349}
   - component: {fileID: 1760308733491350745}
-  m_Layer: 0
+  - component: {fileID: 369436982898337196}
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -375,34 +399,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5958610069214653440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c14f93ebcd6175f488e66b8115e2cb9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 692f6f4b6a86a4643b15797f82c8e495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 5958610068459146416}
   playerCamera: {fileID: 0}
-  maxXRotationSpeed: 5
-  offset: {x: 1, y: 1, z: -5}
+  maxXRotationSpeed: 4
+  offset: {x: 2, y: 1, z: -5}
   distanceFromPlayer: 0
---- !u!114 &8194473352854195271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958610069214653440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fc0fc5cb3930494a8afd4a606343cf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startHealth: 100
-  maxHealth: 100
-  onHealthChange:
-    m_PersistentCalls:
-      m_Calls: []
-  onZeroHealth:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1567860349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +492,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 50fd2809-3aa3-4a90-988e-1facf6773553
     m_ActionName: PlayerMovement/Movement[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7fa8b220-6c3c-465d-aada-e38083824de4
+    m_ActionName: PlayerMovement/Pause[/Keyboard/p,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -508,9 +516,22 @@ CharacterController:
   m_Radius: 0.25
   m_SlopeLimit: 30
   m_StepOffset: 0.05
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &369436982898337196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958610069214653440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b565b680d9dac478d60f704ad4fe79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBase: {fileID: 3351706405661030418}
 --- !u!1 &5958610069380773799
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,8 +543,7 @@ GameObject:
   - component: {fileID: 5958610069380773798}
   - component: {fileID: 5958610069380773803}
   - component: {fileID: 5958610069380773796}
-  - component: {fileID: 5958610069380773797}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,19 +615,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5958610069380773797
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958610069380773799}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5958610070446134151
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,8 +626,7 @@ GameObject:
   - component: {fileID: 5958610070446134150}
   - component: {fileID: 5958610070446134155}
   - component: {fileID: 5958610070446134148}
-  - component: {fileID: 5958610070446134149}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EyeR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,19 +699,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5958610070446134149
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958610070446134151}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &87867495442313894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -716,7 +709,7 @@ PrefabInstance:
     - target: {fileID: 8477871510336841413, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
       propertyPath: healthBase
       value: 
-      objectReference: {fileID: 8194473352854195271}
+      objectReference: {fileID: 3351706405661030418}
     - target: {fileID: 8477871510336841414, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -816,6 +809,30 @@ PrefabInstance:
     - target: {fileID: 8477871510364250681, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871510364250682, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871510503098583, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871510628516097, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871510849955356, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871511322433992, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477871511523244312, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8477871511523244391, guid: 6836772930e1e3542b8ec1528a764297, type: 3}
       propertyPath: m_AnchorMax.x
@@ -939,6 +956,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7003310599591160200, guid: baccf95d1c0b40d4eb682024ae00a1cc, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7179611671603042679, guid: baccf95d1c0b40d4eb682024ae00a1cc, type: 3}
       propertyPath: OnBulletFired.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -986,7 +1007,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7179611671603042679, guid: baccf95d1c0b40d4eb682024ae00a1cc, type: 3}
   m_PrefabInstance: {fileID: 8759491650396033777}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7199369365991425825}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eef5d6eb7b24cb148b1e712201455a31, type: 3}
@@ -1002,3 +1023,27 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5299398456230517185, guid: baccf95d1c0b40d4eb682024ae00a1cc, type: 3}
   m_PrefabInstance: {fileID: 8759491650396033777}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7199369365991425825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1902414001252636112, guid: baccf95d1c0b40d4eb682024ae00a1cc, type: 3}
+  m_PrefabInstance: {fileID: 8759491650396033777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5761660520885500873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199369365991425825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db6186c4124deb4b9b5be33e184c776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 1886144000448973702}
+  aimFromCamera: 1
+  aimFrom: {fileID: 0}
+  distance: 30
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 535

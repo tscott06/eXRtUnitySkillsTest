@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerDeathHandler : MonoBehaviour
 {
     [SerializeField] HealthBase health;
-    [SerializeField] PlayerInputController input;
-    [SerializeField] Rigidbody rb;
+    [SerializeField] PlayerCameraController playerCameraController;
+    [SerializeField] PlayerInput input;
 
     private void OnEnable()
     {
@@ -21,7 +22,10 @@ public class PlayerDeathHandler : MonoBehaviour
 
     private void Die(ZeroHealthArgs args)
     {
-        input.enabled = false;
-        rb.constraints = RigidbodyConstraints.None;
+        Debug.Log("Player died");
+
+        playerCameraController.enabled = false;
+        input.DeactivateInput();
+        GameManager.Instance.DeathScreen();
     }
 }

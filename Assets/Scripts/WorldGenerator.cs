@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Generates a world from a <see cref="TileSet"> via a basic wave function collaspe implementation
 /// Tile are generated on a 2d plane, where Unity's x axis is consider left/right and Unity;s Z axis is considered up/down
 /// </summary>
-public class WorldGenerator : MonoBehaviour
+public class WorldGenerator : MonoBehaviourSingleton<WorldGenerator>
 {
+    [SerializeField] private bool generateAtStart = false;
 
     [SerializeField] private Vector2Int gridDimensions = new Vector2Int(20,20);
 
@@ -30,6 +32,8 @@ public class WorldGenerator : MonoBehaviour
 
     private TileData[,] tileGrid;
 
+    public UnityEvent OnWorldGenerationComplete;
+
     /// <summary>
     /// The size of tiles currently being generated
     /// </summary>
@@ -44,12 +48,15 @@ public class WorldGenerator : MonoBehaviour
 
     public int TileCount => gridDimensions.x * gridDimensions.y;
 
+    public List<GameObject> SpawnedGOs { get => spawnedGOs; set => spawnedGOs = value; }
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        GenerateGrid();
+        if(generateAtStart)
+         GenerateGrid();
     }
 
 
@@ -91,6 +98,8 @@ public class WorldGenerator : MonoBehaviour
                 PlaceTile(tileToUse, currentGridPosition);
             }
         }
+
+        OnWorldGenerationComplete.Invoke();
     }
 
     private void PlaceTile(TileData tileData, Vector2Int currentGridPostion)
@@ -200,8 +209,8 @@ public class WorldGenerator : MonoBehaviour
     private void CollapsePotentialTiles(Vector2Int currentGridPosition, List<TileData> potentialTiles)
     {
         //NOTE : since the current method for placeing tiles simply goes through rows from bottom up
-        //checking up and right is redundant. However, improvements to the generation process (e.g. fixing errors, more random approach to placement)
-        //would likely need all four checks
+        //checking up and right is mostly redundant bar for spawn tiles. But would be needed for more
+        //complex behaviour in generation e.g. generating paths, fixing errors etc.
 
         //Remove any tiles not compatable with top socket
         if (TryGetNeighborTileData(currentGridPosition, Vector2Int.up, out TileData aboveTile))
