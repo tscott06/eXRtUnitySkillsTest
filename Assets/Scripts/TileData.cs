@@ -79,6 +79,7 @@ public class TileData
  
 }
 
+
 public enum TileRuleRotation
 {
     None = 0,

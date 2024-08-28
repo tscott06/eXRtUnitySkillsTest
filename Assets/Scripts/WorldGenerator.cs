@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Generates a world from a <see cref="TileSet"> via a basic wave function collaspe implementation
@@ -12,102 +13,110 @@ using UnityEngine;
 public class WorldGenerator : MonoBehaviour
 {
 
-    [SerializeField] private int gridWidth = 20;
-    [SerializeField] private int gridHeight = 20;
+    [SerializeField] private Vector2Int gridDimensions = new Vector2Int(20,20);
 
     [SerializeField] private TileSet tilesSet;
 
+    //These tiles get placed first at specified location
+    //This is quite hard coded, would ideally add rules to Tileset / have SpecialTileData class derive from TileData etc.
+    //And add randmisation to postion of these points
+    [Header("Special tiles")] 
+
+    [SerializeField] private TileDataSO playerSpawnTile;
+    [SerializeField] private Vector2Int playerSpawnPoint;
+
+    [SerializeField] private TileDataSO enemySpawnTile;
+    [SerializeField] private Vector2Int enemySpawnPoint;
+
     private TileData[,] tileGrid;
-    //private Queue<Vector2Int> collaspeQueue;
+
+    /// <summary>
+    /// The size of tiles currently being generated
+    /// </summary>
+    private float currentTileSize;
+
+    Vector3 tileGridWorldOffset;
 
     private List<GameObject> spawnedGOs = new List<GameObject>();
 
-    /*
-    //List of offsets that gets looped through when checking neighbors in grid
-    private Vector2Int[] offsets = new Vector2Int[]
-    {
-        new Vector2Int(0, 1), // PosZ (up from this tile in grid)
-        new Vector2Int(0, -1), // NegZ (down from this tile in grid)
-        new Vector2Int(1, 0), // PosX (right from this tile in grid)
-        new Vector2Int(-1, 0),// nEGx (left from this tile in grid)
-    };
-    */
+    public int GridWidth { get => gridDimensions.x; set => gridDimensions.x = value; }
+    public int GridHeight { get => gridDimensions.y; set => gridDimensions.y = value; }
 
-    public int GridWidth { get => gridWidth; set => gridWidth = value; }
-    public int GridHeight { get => gridHeight; set => gridHeight = value; }
-
-    public int TileCount => gridWidth * gridHeight;
+    public int TileCount => gridDimensions.x * gridDimensions.y;
 
 
-    //private Dictionary<Vector2Int, GameObject> spawnedGODictionary = new Dictionary<Vector2Int, GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
         GenerateGrid();
-
-
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            ClearCurrentGrid();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            GenerateGrid();
-        }
-    }
 
     public void GenerateGrid()
     {
         ClearCurrentGrid(); 
 
-        tileGrid = new TileData[gridWidth, gridHeight];
+        tileGrid = new TileData[gridDimensions.x, gridDimensions.y];
 
-        float tileSize = tilesSet.TileSize;
+        currentTileSize = tilesSet.TileSize;
 
-        float startXOffset = gridWidth * .5f * tileSize * -1;
-        float startZOffset = gridHeight * .5f * tileSize * -1;
+        tileGridWorldOffset.x = gridDimensions.x * .5f * currentTileSize * -1;
+        tileGridWorldOffset.z = gridDimensions.y * .5f * currentTileSize * -1;
 
         //Vector2 startGridPosition = (Vector2)transform.position + new Vector2(startXOffset, startYOffset);
         //Vector2 currentGridPostion = startGridPosition;
 
         Vector2Int startGridPosition = new Vector2Int(0, 0);
-        Vector2Int currentGridPostion = startGridPosition;
+        Vector2Int currentGridPosition = startGridPosition;
+
+        //Place special spawn tiles first. Ideally would take a less hard coded approach
+        PlaceTile(playerSpawnTile.TileData, playerSpawnPoint);
+        PlaceTile(enemySpawnTile.TileData, enemySpawnPoint);
 
         List<TileData> tileSetWithRotatedVariants = GenerateListWithRotatedVariants(tilesSet.GetTileDataList());
 
         //Could improve this by starting from centre....
-        for (; currentGridPostion.x < gridWidth; currentGridPostion.x++, currentGridPostion.y = 0)
+        //Also no means of resolving conflicting nodes at this point, resulting in some errors in grass patches etc.
+        //Plus ideally would want to find some way to garantee there are not impassable areas (e.g. draw path between spawn points)
+        for (; currentGridPosition.x < gridDimensions.x; currentGridPosition.x++, currentGridPosition.y = 0)
         {
-            for (; currentGridPostion.y < gridHeight; currentGridPostion.y++)
+            for (; currentGridPosition.y < gridDimensions.y; currentGridPosition.y++)
             {
-                TileData tileToUse = PickValidTile(currentGridPostion, tileSetWithRotatedVariants);
+                //Skip if tile already occupied, e.g. spawn point or byprevious generation
+                if (tileGrid[currentGridPosition.x, currentGridPosition.y] != null)
+                    continue;
 
-                GameObject PrefabToSpawn = tileToUse.Prefab;
-
-                float worldXPosition = startXOffset + currentGridPostion.x * tileSize;
-                float worldzPosition = startZOffset + currentGridPostion.y * tileSize;
-
-                Vector3 SpawnPoint = new Vector3(worldXPosition, 0, worldzPosition);
-
-                int rotateToApply = tileToUse.RotationsToApplyToPrefab;
-
-                Quaternion rotation = Quaternion.Euler(0, rotateToApply, 0);
-
-                GameObject newInstance = Instantiate(PrefabToSpawn, SpawnPoint, rotation, transform);
-                spawnedGOs.Add(newInstance);
-
-                tileGrid[currentGridPostion.x, currentGridPostion.y] = tileToUse;
+                TileData tileToUse = PickValidTile(currentGridPosition, tileSetWithRotatedVariants);
+                PlaceTile(tileToUse, currentGridPosition);
             }
         }
     }
 
+    private void PlaceTile(TileData tileData, Vector2Int currentGridPostion)
+    {
+        GameObject PrefabToSpawn = tileData.Prefab;
 
+        float worldXPosition = tileGridWorldOffset.x + currentGridPostion.x * currentTileSize;
+        float worldzPosition = tileGridWorldOffset.z + currentGridPostion.y * currentTileSize;
+
+        Vector3 SpawnPoint = new Vector3(worldXPosition, 0, worldzPosition);
+
+        int rotateToApply = tileData.RotationsToApplyToPrefab;
+
+        Quaternion rotation = Quaternion.Euler(0, rotateToApply, 0);
+
+        GameObject newInstance = Instantiate(PrefabToSpawn, SpawnPoint, rotation, transform);
+        spawnedGOs.Add(newInstance);
+
+        tileGrid[currentGridPostion.x, currentGridPostion.y] = tileData;
+    }
+
+    /// <summary>
+    /// Takes the Tile list and added rotated variants if applicable
+    /// </summary>
+    /// <param name="originalTileset"></param>
+    /// <returns></returns>
     private List<TileData> GenerateListWithRotatedVariants(List<TileData> originalTileset)
     {
         List<TileData> updatedTileSet = new List<TileData>();
@@ -130,6 +139,12 @@ public class WorldGenerator : MonoBehaviour
         return updatedTileSet;
     }
 
+    /// <summary>
+    /// Tries to pick a valid tile to place at this cell
+    /// </summary>
+    /// <param name="currentGridPosition"></param>
+    /// <param name="tileset"></param>
+    /// <returns></returns>
     private TileData PickValidTile(Vector2Int currentGridPosition, List<TileData> tileset)
     {
         List<TileData> potentialTiles = new List<TileData>(tileset);
@@ -150,6 +165,11 @@ public class WorldGenerator : MonoBehaviour
         return tileToUse;
     }
 
+    /// <summary>
+    /// Picks a TileData at random favouring those with higher weights 
+    /// </summary>
+    /// <param name="potentialTiles"></param>
+    /// <returns></returns>
     private TileData GetTileByWeightedRandom(List<TileData> potentialTiles)
     {
         List<float> weights = potentialTiles.Select(x => x.Weight).ToList();
@@ -179,41 +199,25 @@ public class WorldGenerator : MonoBehaviour
     /// <param name="potentialTiles"></param>
     private void CollapsePotentialTiles(Vector2Int currentGridPosition, List<TileData> potentialTiles)
     {
-        Debug.Log($"Current grid posit {currentGridPosition}");
+        //NOTE : since the current method for placeing tiles simply goes through rows from bottom up
+        //checking up and right is redundant. However, improvements to the generation process (e.g. fixing errors, more random approach to placement)
+        //would likely need all four checks
 
         //Remove any tiles not compatable with top socket
         if (TryGetNeighborTileData(currentGridPosition, Vector2Int.up, out TileData aboveTile))
-        {
-            Debug.Log("Checking up nieghbor");
-            //potentialTiles.RemoveAll(x => !x.IsCompatibleWithAboveTile(aboveTile));
             potentialTiles.RemoveAll(x => x.Sockets.Up != aboveTile.Sockets.Down);
-        }
-
+       
         //Remove any tiles not compatable with right socket
         if (TryGetNeighborTileData(currentGridPosition, Vector2Int.right, out TileData rightTile))
-        {
-            Debug.Log("Checking right nieghbor");
-            //potentialTiles.RemoveAll(x => !x.IsCompatibleWithRightTile(rightTile));
             potentialTiles.RemoveAll(x => x.Sockets.Right != rightTile.Sockets.Left);
-        }
 
         //Remove any tiles not compatable with bottom socket
         if (TryGetNeighborTileData(currentGridPosition, Vector2Int.down, out TileData belowTile))
-        {
-            Debug.Log("Checking down nieghbor");
-            //potentialTiles.RemoveAll(x => !x.IsCompatibleWithBelowTile(belowTile));
             potentialTiles.RemoveAll(x => x.Sockets.Down != belowTile.Sockets.Up);
-        }
 
         //Remove any tiles not compatable with left socket
         if (TryGetNeighborTileData(currentGridPosition, Vector2Int.left, out TileData leftTile))
-        {
-            Debug.Log("Checking left nieghbor");
-            //potentialTiles.RemoveAll(x => !x.IsCompatibleWithBelowTile(belowTile));
             potentialTiles.RemoveAll(x => x.Sockets.Left != leftTile.Sockets.Right);
-        }
-
-        Debug.Log("Match count = " + potentialTiles.Count);
 
     }
 
@@ -232,7 +236,7 @@ public class WorldGenerator : MonoBehaviour
 
     private bool IsInsideGrid(Vector2Int positionToCheck)
     {
-        return (positionToCheck.x >= 0 && positionToCheck.x < gridWidth) && (positionToCheck.y >= 0 && positionToCheck.y < gridHeight);
+        return (positionToCheck.x >= 0 && positionToCheck.x < gridDimensions.x) && (positionToCheck.y >= 0 && positionToCheck.y < gridDimensions.y);
     }
 
     public void ClearCurrentGrid()
@@ -246,4 +250,9 @@ public class WorldGenerator : MonoBehaviour
         spawnedGOs.Clear();
     }
 
+
+    private void OnValidate()
+    {
+        
+    }
 }

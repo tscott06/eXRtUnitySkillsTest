@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 323313474709088795}
   - component: {fileID: 8320561911301422077}
   - component: {fileID: 4559560658325308547}
+  - component: {fileID: 8334232615758521187}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -28,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99155819528506423}
   m_LocalRotation: {x: 0.0007126333, y: 0.006799086, z: 0.003709732, w: 0.9999697}
-  m_LocalPosition: {x: -0.191, y: 0.164125, z: -0.004}
-  m_LocalScale: {x: 0.32825, y: 0.32825, z: 0.32825}
+  m_LocalPosition: {x: -0.237, y: 0.276, z: -0.002}
+  m_LocalScale: {x: 0.26, y: 0.5, z: 0.86}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2028064187652049822}
@@ -114,6 +115,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8334232615758521187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99155819528506423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc0fc5cb3930494a8afd4a606343cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 50
+  maxHealth: 50
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onZeroHealth:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 99155819528506423}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &301830470029211159
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2028064187652049822}
   m_Layer: 0
-  m_Name: BasicFloorPrefab 1
+  m_Name: Crates
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,6 +293,7 @@ GameObject:
   - component: {fileID: 713012250711957545}
   - component: {fileID: 6708438602819808387}
   - component: {fileID: 7950153257842694863}
+  - component: {fileID: 4857345067086182402}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -275,8 +309,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7785362878482083813}
   m_LocalRotation: {x: 0.0007126333, y: 0.006799086, z: 0.003709732, w: 0.9999697}
-  m_LocalPosition: {x: 0.031, y: 0.4928169, z: -0.044}
-  m_LocalScale: {x: 0.32825, y: 0.32825, z: 0.32825}
+  m_LocalPosition: {x: 0.012, y: 0.687, z: -0.04}
+  m_LocalScale: {x: 0.56, y: 0.32, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2028064187652049822}
@@ -361,6 +395,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4857345067086182402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785362878482083813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc0fc5cb3930494a8afd4a606343cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 50
+  maxHealth: 50
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onZeroHealth:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7785362878482083813}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8242213156867840692
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +440,7 @@ GameObject:
   - component: {fileID: 4267128157611185577}
   - component: {fileID: 1754913991011165704}
   - component: {fileID: 8877991909805756141}
+  - component: {fileID: 6663879711958444974}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -389,8 +456,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8242213156867840692}
   m_LocalRotation: {x: 0.0015095918, y: 0.22614123, z: 0.0034628164, w: 0.97408724}
-  m_LocalPosition: {x: 0.222, y: 0.164125, z: -0.046}
-  m_LocalScale: {x: 0.32825, y: 0.32825, z: 0.32825}
+  m_LocalPosition: {x: 0.221, y: 0.276, z: -0.046}
+  m_LocalScale: {x: 0.41, y: 0.5, z: 0.41}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2028064187652049822}
@@ -475,3 +542,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6663879711958444974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8242213156867840692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc0fc5cb3930494a8afd4a606343cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 50
+  maxHealth: 50
+  onHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onZeroHealth:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8242213156867840692}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
